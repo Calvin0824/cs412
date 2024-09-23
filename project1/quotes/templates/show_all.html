@@ -1,0 +1,13 @@
+{extends 'base.html'}
+
+{% block content %}
+    <h1>All Quotes by Jackie Chan</h1>
+    <ul>
+        {% for quote in quotes %}
+            <li>{{quote}}</li>
+        {% endfor %}
+    </ul>
+    {% for pic in pics %}
+        <img src="{{pic}}" alt="Jackie Chan">
+    {% endfor %}
+{% endblock %}
