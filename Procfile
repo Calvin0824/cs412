@@ -1,3 +1,3 @@
 # create Procfile:
 # contents: 
-web: gunicorn project1.wsgi --log-file -
+web: gunicorn project1/project.wsgi --log-file -
