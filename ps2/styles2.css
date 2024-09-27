@@ -1,0 +1,30 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+input[type="submit"] {
+    margin-left: 25%;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: greenyellow;
+    width: 50%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.h2 {
+    margin-left: 20%;
+}
+
+.bullet {
+    vertical-align: top;
+}
+
+.radio, .checkbox {
+    vertical-align: top;
+    border: 1px blue dotted;
+    border-radius: 10px;
+}

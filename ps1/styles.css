@@ -1,0 +1,44 @@
+body {
+  background-color: beige;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #004080;
+}
+
+.image {
+  border-radius: 10px;
+  width: 100%;
+  vertical-align: top;
+  text-align: center;
+}
+
+.bio {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: left; 
+  vertical-align: none; 
+  width: 100%;
+}
+
+table.first {
+  width: 100%;
+}
+
+th {
+  color: #004080;
+}
+
+.activities {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+td img {
+  border-radius: 8px;
+  max-width: 400px;
+}
