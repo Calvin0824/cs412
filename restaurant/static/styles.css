@@ -1,0 +1,23 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+.modifications {
+    display: none;
+    margin-left: 20px;
+}
+
+.pic_table {
+    display: flex;
+    align-items: center;
+}
+
+.pic {
+    margin-right: 20px;
+    padding-right: 20px;
+}
+
+.personal {
+    list-style-type: none;
+}
