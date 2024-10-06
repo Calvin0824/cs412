@@ -6,4 +6,4 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=100)
     city = models.TextField(blank=False)
     email = models.EmailField()
-    image = models.ImageField(blank=True)
+    image = models.URLField(blank=True)
