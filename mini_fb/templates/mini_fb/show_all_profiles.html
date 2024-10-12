@@ -19,12 +19,18 @@
         <tbody>
             {% for profile in profiles %}
                 <tr>
-                    <td>{{ profile.first_name }}</td>
+                    <td>
+                        <a href="{% url 'show_profile' profile.pk %}">
+                            {{ profile.first_name }}
+                        </a>
+                    </td>
                     <td>{{ profile.last_name }}</td>
                     <td>{{ profile.city }}</td>
                     <td>
                         {% if profile.image %}
-                            <img src="{{ profile.image }}" alt="{{ profile.first_name }}'s Profile Image" style="width:100px;height:100px;">
+                            <a href="{% url 'show_profile' profile.pk %}">
+                                <img src="{{ profile.image }}" alt="{{ profile.first_name }}'s Profile Image" style="width:100px;height:100px;">
+                            </a>
                         {% endif %}
                     </td>
                 </tr>
