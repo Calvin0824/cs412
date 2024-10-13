@@ -11,15 +11,15 @@
         <tr>
             <td>
                 {% if profile.image %}
-                    <img src="{{profile.image}}" alt="{{profile.first_name}} {{profile.last_name}}" />
+                    <img src="{{profile.image}}" alt="{{profile.first_name}} {{profile.last_name}}" class="profile_img" />
                 {% endif %}
             </td>
-            <td><h2>{{profile.first_name}} {{profile.last_name}}</h2></td>
-            <td>From: {{profile.city}}</td>
-            <td>Email: {{profile.email}}</td>
-            <td>
+            <td class="profile_text">
+                <h2>{{profile.first_name}} {{profile.last_name}}</h2>
+                <p>From: {{profile.city}}</p>
+                <p>Email: {{profile.email}}</p>
                 <nav>
-                    <a href="{% url 'create_status' profile.pk %}">Create Status</a>
+                    <a href="{% url 'create_status' profile.pk %}">Post Status</a>
                 </nav>
             </td>
         </tr>

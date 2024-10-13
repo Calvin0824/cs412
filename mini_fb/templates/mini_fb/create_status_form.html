@@ -17,7 +17,7 @@
     <tr>
         <td><input type="submit" name="submit" value="Create Message">
         </form>
-        <form action="/mini_fb/" method="get">
+        <form action="{% url 'show_profile' profile.pk %}" method="get">
             <input type="submit" name="Cancel" value="Cancel">
         </form>
         </td>
