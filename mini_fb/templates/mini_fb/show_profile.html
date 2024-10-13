@@ -17,6 +17,20 @@
             <td><h2>{{profile.first_name}} {{profile.last_name}}</h2></td>
             <td>From: {{profile.city}}</td>
             <td>Email: {{profile.email}}</td>
+            <td>
+                <nav>
+                    <a href="{% url 'create_status' profile.pk %}">Create Status</a>
+                </nav>
+            </td>
         </tr>
     </table>
+
+    <div>
+        <h2>Status Messages</h2>
+        <ul>
+            {% for status in statuses %}
+                <li>{{status.message}}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
