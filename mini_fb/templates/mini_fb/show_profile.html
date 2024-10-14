@@ -29,7 +29,7 @@
         <h2>Status Messages</h2>
         <ul>
             {% for status in statuses %}
-                <li>{{status.message}}</li>
+                <li>{{status.timestamp}}- {{status.message}}</li>
             {% endfor %}
         </ul>
     </div>
