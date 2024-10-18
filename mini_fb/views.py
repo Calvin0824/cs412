@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import ListView, DetailView, CreateView
-from .models import Profile, StatusMessage
+from .models import Profile, StatusMessage, Image
 from django.urls import reverse
 from .forms import StatusMessageForm
 
@@ -48,6 +48,11 @@ class CreateStatusView(CreateView):
         """This is called if the form is valid."""
         profile = Profile.objects.get(pk=self.kwargs['pk'])
         form.instance.profile = profile
+        sm = form.save()
+        files = self.request.FILES.getlist('files')
+        for f in files:
+            img = Image(img=f, message=sm)
+            img.save()
         return super().form_valid(form)
     
     def get_success_url(self):
