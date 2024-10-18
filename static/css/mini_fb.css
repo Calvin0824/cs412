@@ -110,3 +110,16 @@ nav a {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
+
+.status_img {
+    width: 300px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.status_img_container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin: 10px;
+}

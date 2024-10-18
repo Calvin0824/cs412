@@ -29,7 +29,17 @@
         <h2>Status Messages</h2>
         <ul>
             {% for status in statuses %}
-                <li>{{status.timestamp}}- {{status.message}}</li>
+                {% if status.get_images %}
+                    <li>{{status.timestamp}}- {{status.message}}<br />
+                        <div class="status_img_container">
+                            {% for image in status.get_images %}
+                                <img src="{{image.img.url}}" alt="status image" class="status_img" />
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li>{{status.timestamp}}- {{status.message}}</li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
