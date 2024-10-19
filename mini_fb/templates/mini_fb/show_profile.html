@@ -18,9 +18,14 @@
                 <h2>{{profile.first_name}} {{profile.last_name}}</h2>
                 <p>From: {{profile.city}}</p>
                 <p>Email: {{profile.email}}</p>
-                <nav>
-                    <a href="{% url 'create_status' profile.pk %}">Post Status</a>
-                </nav>
+                <div class="profile_button">
+                    <nav>
+                        <a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
+                    </nav>
+                    <nav>
+                        <a href="{% url 'create_status' profile.pk %}">Post Status</a>
+                    </nav>
+                </div>
             </td>
         </tr>
     </table>

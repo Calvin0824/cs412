@@ -2,7 +2,7 @@ from typing import Any
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Profile, StatusMessage, Image
 from django.urls import reverse
 from .forms import StatusMessageForm
@@ -66,3 +66,13 @@ class CreateStatusView(CreateView):
         context['profile'] = profile
         
         return context
+    
+class UpdateProfileView(UpdateView):
+    """Update a profile"""
+    model = Profile
+    template_name = "mini_fb/update_profile_form.html"
+    fields = ['city', 'email', 'image']
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing the form."""
+        return reverse('show_profile', kwargs={'pk': self.object.pk})
