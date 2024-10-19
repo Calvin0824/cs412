@@ -2,7 +2,7 @@ from typing import Any
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, StatusMessage, Image
 from django.urls import reverse
 from .forms import StatusMessageForm
@@ -76,3 +76,34 @@ class UpdateProfileView(UpdateView):
     def get_success_url(self):
         """Return the URL to redirect to after processing the form."""
         return reverse('show_profile', kwargs={'pk': self.object.pk})
+
+class DeleteStatusMessageView(DeleteView):
+    """Delete a status message"""
+    model = StatusMessage
+    template_name = "mini_fb/delete_status_form.html"
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing the form."""
+        return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
+
+    def get_context_data(self, **kwargs):
+        """Add profile to the context to use in the template"""
+        context = super().get_context_data(**kwargs)
+        context['profile'] = self.object.profile 
+        return context
+    
+class UpdateStatusMessageView(UpdateView):
+    """Update a status message"""
+    model = StatusMessage
+    template_name = "mini_fb/update_status_form.html"
+    fields = ['message']
+
+    def get_success_url(self):
+        """Return the URL to redirect to after processing the form."""
+        return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
+
+    def get_context_data(self, **kwargs):
+        """Add profile to the context to use in the template"""
+        context = super().get_context_data(**kwargs)
+        context['profile'] = self.object.profile 
+        return context

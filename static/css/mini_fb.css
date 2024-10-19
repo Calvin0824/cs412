@@ -82,6 +82,7 @@ nav {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     margin-right: 10px;
+    border: 2px solid #333;
 }
 
 nav a {
@@ -129,4 +130,16 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.delete_container {
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    margin: 10px;
+    width: 100px
+}
+
+.delete {
+    background-color: #fd1919;
 }

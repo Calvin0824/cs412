@@ -36,6 +36,14 @@
             {% for status in statuses %}
                 {% if status.get_images %}
                     <li>{{status.timestamp}}- {{status.message}}<br />
+                        <div class="delete_container">
+                            <nav class="delete">
+                                <a href="{% url 'delete_status' status.pk %}">Delete</a>
+                            </nav>
+                            <nav>
+                                <a href="{% url 'update_status' status.pk %}">Update</a>
+                            </nav>
+                        </div>
                         <div class="status_img_container">
                             {% for image in status.get_images %}
                                 <img src="{{image.img.url}}" alt="status image" class="status_img" />
@@ -44,6 +52,14 @@
                     </li>
                 {% else %}
                     <li>{{status.timestamp}}- {{status.message}}</li>
+                    <div class="delete_container">
+                        <nav class="delete">
+                            <a href="{% url 'delete_status' status.pk %}">Delete</a>
+                        </nav>
+                        <nav>
+                            <a href="{% url 'update_status' status.pk %}">Update</a>
+                        </nav>
+                    </div>
                 {% endif %}
             {% endfor %}
         </ul>
