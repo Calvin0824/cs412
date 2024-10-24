@@ -17,6 +17,15 @@ class Profile(models.Model):
     def get_absolute_url(self):
         '''Return the URL to display this profile'''
         return reverse('show_profile', kwargs={'pk': self.pk})
+    
+    def get_friends(self):
+        '''Returns the friends of this profile'''
+        friends1 = Friend.objects.filter(profile1=self).values_list('profile2', flat=True)
+        friends2 = Friend.objects.filter(profile2=self).values_list('profile1', flat=True)
+
+        ids = list(friends1) + list(friends2)
+        profiles = Profile.objects.filter(id__in=ids)
+        return list(profiles)
 
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -36,3 +45,13 @@ class Image(models.Model):
     img = models.ImageField()
     message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE, related_name='images')
     uploaded = models.DateTimeField(auto_now_add=True)
+
+
+class Friend(models.Model):
+    profile1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile1')
+    profile2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile2')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        '''Return the string representation of this friend relation.'''
+        return f'{self.profile1} & {self.profile2}'

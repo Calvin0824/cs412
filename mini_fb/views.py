@@ -23,6 +23,7 @@ class ShowProfilePageView(DetailView):
         context = super().get_context_data(**kwargs)
         profile = Profile.objects.get(pk=self.kwargs['pk'])
         context['statuses'] = profile.statusmessage_set.all()
+        context['friends'] = profile.get_friends()
         
         return context
 
