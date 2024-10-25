@@ -40,10 +40,6 @@ body {
     max-width: 242px;
 }
 
-.profiles_table th {
-    display: none; 
-}
-
 .profiles_table td {
     text-align: center;
     padding: 10px;
@@ -143,4 +139,115 @@ nav a {
 
 .delete {
     background-color: #fd1919;
+}
+
+.nav_table {
+    display: flex; 
+    gap: 15px; 
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.nav_table nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin-right: 10px;
+    border: 2px solid #333;
+    max-width: fit-content;
+}
+
+.header {
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.news_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: #e6f7ff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news_card {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news_profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.news_profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.news_profile a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.news_profile a:hover {
+    color: #007BFF;
+}
+
+.news_message {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.news_img {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.news_img .status_img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.news_timestamp {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.status_block {
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

@@ -39,6 +39,13 @@ class Profile(models.Model):
         friends.append(self)
         suggestions = Profile.objects.exclude(id__in=[f.id for f in friends])
         return suggestions
+    
+    def get_news_feed(self):
+        '''Returns the news feed for this profile'''
+        friends = self.get_friends()
+        friends.append(self)
+        messages = StatusMessage.objects.filter(profile__in=friends).order_by('-timestamp')
+        return list(messages)
 
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
