@@ -7,6 +7,10 @@
 {% block content %}
     <h1>News Feed</h1>
 
+    <nav>
+        <a href="{% url 'show_profile' profile.pk %}">Back to Profile</a>
+    </nav>
+
     <div class="news_container">
         {% for status in statuses %}
         <div class="news_card">
