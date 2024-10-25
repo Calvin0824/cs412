@@ -1,8 +1,10 @@
 from typing import Any
-from django.shortcuts import render
+from django.http import HttpRequest
+from django.http.response import HttpResponse as HttpResponse
+from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Profile, StatusMessage, Image
 from django.urls import reverse
 from .forms import StatusMessageForm
@@ -107,4 +109,24 @@ class UpdateStatusMessageView(UpdateView):
         """Add profile to the context to use in the template"""
         context = super().get_context_data(**kwargs)
         context['profile'] = self.object.profile 
+        return context
+
+class CreateFriendView(View):
+    
+    def dispatch(self, request, *args, **kwargs):
+        profile = Profile.objects.get(pk=kwargs['pk'])
+        friend = Profile.objects.get(pk=kwargs['other_pk'])
+        profile.add_friend(friend)
+        return redirect('show_profile', pk=profile.pk)
+    
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = "mini_fb/friend_suggestions.html"
+    context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        context['friends'] = profile.get_friend_suggestions()
+        context['profile'] = profile
         return context

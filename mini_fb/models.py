@@ -26,6 +26,19 @@ class Profile(models.Model):
         ids = list(friends1) + list(friends2)
         profiles = Profile.objects.filter(id__in=ids)
         return list(profiles)
+    
+    def add_friend(self, other):
+        '''Add a friend to this profile'''
+        if self != other:
+            if other not in self.get_friends():
+                Friend.objects.create(profile1=self, profile2=other)
+
+    def get_friend_suggestions(self):
+        '''Returns friend suggestions for this profile'''
+        friends = self.get_friends()
+        friends.append(self)
+        suggestions = Profile.objects.exclude(id__in=[f.id for f in friends])
+        return suggestions
 
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
