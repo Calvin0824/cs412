@@ -9,7 +9,7 @@ class Profile(models.Model):
     city = models.TextField(blank=False)
     email = models.EmailField()
     image = models.URLField(blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_status_messages(self):
         '''Returns the status messages for this profile'''
