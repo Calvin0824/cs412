@@ -2,6 +2,7 @@ from typing import Any
 from django.http import HttpRequest
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
@@ -40,7 +41,7 @@ class CreateProfileView(CreateView):
         form.save()
         return super().form_valid(form)
     
-class CreateStatusView(CreateView):
+class CreateStatusView(LoginRequiredMixin,CreateView):
     """Create a new status message"""
     model = StatusMessage
     template_name = "mini_fb/create_status_form.html"
@@ -70,7 +71,7 @@ class CreateStatusView(CreateView):
         
         return context
     
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     """Update a profile"""
     model = Profile
     template_name = "mini_fb/update_profile_form.html"
@@ -80,7 +81,7 @@ class UpdateProfileView(UpdateView):
         """Return the URL to redirect to after processing the form."""
         return reverse('show_profile', kwargs={'pk': self.object.pk})
 
-class DeleteStatusMessageView(DeleteView):
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     """Delete a status message"""
     model = StatusMessage
     template_name = "mini_fb/delete_status_form.html"
@@ -95,7 +96,7 @@ class DeleteStatusMessageView(DeleteView):
         context['profile'] = self.object.profile 
         return context
     
-class UpdateStatusMessageView(UpdateView):
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     """Update a status message"""
     model = StatusMessage
     template_name = "mini_fb/update_status_form.html"
@@ -111,7 +112,7 @@ class UpdateStatusMessageView(UpdateView):
         context['profile'] = self.object.profile 
         return context
 
-class CreateFriendView(View):
+class CreateFriendView(LoginRequiredMixin, View):
     
     def dispatch(self, request, *args, **kwargs):
         profile = Profile.objects.get(pk=kwargs['pk'])
@@ -119,7 +120,7 @@ class CreateFriendView(View):
         profile.add_friend(friend)
         return redirect('show_profile', pk=profile.pk)
     
-class ShowFriendSuggestionsView(DetailView):
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = "mini_fb/friend_suggestions.html"
     context_object_name = "profile"
@@ -131,7 +132,7 @@ class ShowFriendSuggestionsView(DetailView):
         context['profile'] = profile
         return context
     
-class ShowNewsFeedView(DetailView):
+class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = "mini_fb/news_feed.html"
     context_object_name = "profile"
