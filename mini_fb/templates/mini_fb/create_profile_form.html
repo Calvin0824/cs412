@@ -11,6 +11,12 @@
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 
+<h3>Create User</h3>
+<table>
+    {{ user_creation_form.as_table }}  
+</table>
+
+<h3>Create Profile</h3>
 <table>
     {{form.as_table}}
 

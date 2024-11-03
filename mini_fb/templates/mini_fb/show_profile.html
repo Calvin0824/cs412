@@ -21,16 +21,16 @@
                 {% if user.is_authenticated and user == profile.user %}                
                     <div class="profile_button">
                         <nav>
-                            <a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
+                            <a href="{% url 'update_profile' %}">Update Profile</a>
                         </nav>
                         <nav>
-                            <a href="{% url 'create_status' profile.pk %}">Post Status</a>
+                            <a href="{% url 'create_status' %}">Post Status</a>
                         </nav>
                         <nav>
-                            <a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a>
+                            <a href="{% url 'friend_suggestions' %}">Friend Suggestions</a>
                         </nav>
                         <nav>
-                            <a href="{% url 'news_feed' profile.pk %}">News Feed</a>
+                            <a href="{% url 'news_feed' %}">News Feed</a>
                         </nav>
                     </div>
                 {% endif %}
@@ -85,6 +85,7 @@
                     </li>
                 {% else %}
                     <li>{{status.timestamp}}- {{status.message}}</li>
+                    {% if user.is_authenticated and user == profile.user %}
                     <div class="delete_container">
                         <nav class="delete">
                             <a href="{% url 'delete_status' status.pk %}">Delete</a>
@@ -93,6 +94,7 @@
                             <a href="{% url 'update_status' status.pk %}">Update</a>
                         </nav>
                     </div>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </ul>

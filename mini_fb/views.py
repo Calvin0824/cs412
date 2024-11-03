@@ -22,9 +22,13 @@ class ShowProfilePageView(DetailView):
     template_name = "mini_fb/show_profile.html"
     context_object_name = "profile"
 
+    # def get_object(self):
+    #     """Returns the Profile object for the current user"""
+    #     return Profile.objects.get(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_object()
         context['statuses'] = profile.statusmessage_set.all()
         context['friends'] = profile.get_friends()
         
@@ -47,10 +51,13 @@ class CreateStatusView(LoginRequiredMixin,CreateView):
     template_name = "mini_fb/create_status_form.html"
     form_class = StatusMessageForm
 
+    def get_object(self):
+        """Returns the Profile object for the current user"""
+        return Profile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
         """This is called if the form is valid."""
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_object()
         form.instance.profile = profile
         sm = form.save()
         files = self.request.FILES.getlist('files')
@@ -63,10 +70,13 @@ class CreateStatusView(LoginRequiredMixin,CreateView):
         """Return the URL to redirect to after processing the form."""
         return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
     
+    def get_object(self):
+        """Returns the Profile object for the current user"""
+        return Profile.objects.get(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_object()
         context['profile'] = profile
         
         return context
@@ -76,6 +86,10 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     template_name = "mini_fb/update_profile_form.html"
     fields = ['city', 'email', 'image']
+
+    def get_object(self):
+        """Returns the Profile object for the current user"""
+        return Profile.objects.get(user=self.request.user)
 
     def get_success_url(self):
         """Return the URL to redirect to after processing the form."""
@@ -113,9 +127,13 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
         return context
 
 class CreateFriendView(LoginRequiredMixin, View):
+
+    def get_object(self):
+        """Returns the Profile object for the current user"""
+        return Profile.objects.get(user=self.request.user)
     
     def dispatch(self, request, *args, **kwargs):
-        profile = Profile.objects.get(pk=kwargs['pk'])
+        profile = self.get_object()
         friend = Profile.objects.get(pk=kwargs['other_pk'])
         profile.add_friend(friend)
         return redirect('show_profile', pk=profile.pk)
@@ -125,9 +143,13 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     template_name = "mini_fb/friend_suggestions.html"
     context_object_name = "profile"
 
+    def get_object(self):
+        """Returns the Profile object for the current user"""
+        return Profile.objects.get(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_object()
         context['friends'] = profile.get_friend_suggestions()
         context['profile'] = profile
         return context
@@ -137,9 +159,13 @@ class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     template_name = "mini_fb/news_feed.html"
     context_object_name = "profile"
 
+    def get_object(self):
+        """Returns the Profile object for the current user"""
+        return Profile.objects.get(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        profile = self.get_object()
         statuses = profile.get_news_feed()
         context['statuses'] = statuses
         context['profile'] = profile
