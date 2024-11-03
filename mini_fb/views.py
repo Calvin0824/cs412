@@ -9,6 +9,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Profile, StatusMessage, Image
 from django.urls import reverse
 from .forms import StatusMessageForm
+from django.contrib.auth.forms import UserCreationForm
 
 class ShowAllProfileViews(ListView):
     """Shows all the profiles"""
@@ -21,10 +22,6 @@ class ShowProfilePageView(DetailView):
     model = Profile
     template_name = "mini_fb/show_profile.html"
     context_object_name = "profile"
-
-    # def get_object(self):
-    #     """Returns the Profile object for the current user"""
-    #     return Profile.objects.get(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,10 +37,22 @@ class CreateProfileView(CreateView):
     template_name = "mini_fb/create_profile_form.html"
     fields = ['first_name', 'last_name', 'city', 'email', 'image']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_creation_form'] = UserCreationForm()
+        return context
+
     def form_valid(self, form):
         """This is called if the form is valid."""
-        form.save()
-        return super().form_valid(form)
+        user_creation_form = UserCreationForm(self.request.POST)
+        if user_creation_form.is_valid():
+            user = user_creation_form.save()
+            profile = form.instance
+            profile.user = user
+            profile.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
     
 class CreateStatusView(LoginRequiredMixin,CreateView):
     """Create a new status message"""
