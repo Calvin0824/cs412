@@ -2,7 +2,7 @@ from collections import Counter
 from django.shortcuts import render
 from .models import Voter
 from django.views.generic import ListView, DetailView
-import plotly 
+import plotly
 import plotly.graph_objects as go 
 import plotly.offline as pyo 
 from django.db.models import Q, Count
