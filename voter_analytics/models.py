@@ -1,19 +1,18 @@
-# models.py
 from django.db import models
 from datetime import datetime
 
 # Create your models here.
 class Voter(models.Model):
-    last_name = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
     street_number = models.CharField(max_length=10, blank=True, null=True)
-    street_name = models.CharField(max_length=100)
+    street_name = models.CharField(max_length=200)
     apartment_number = models.CharField(max_length=10, blank=True, null=True)
     zip_code = models.CharField(max_length=10)
     date_of_birth = models.DateField()
     date_of_registration = models.DateField()
     party_affiliation = models.CharField(max_length=50)
-    precinct_number = models.IntegerField()
+    precinct_number = models.CharField(max_length=10)
     v20state = models.BooleanField()
     v21town = models.BooleanField()
     v21primary = models.BooleanField()
@@ -25,8 +24,10 @@ class Voter(models.Model):
         return f"{self.first_name} {self.last_name} - Precinct {self.precinct_number}"
 
 def load_data():
-    filename = '/voter_analytics/data/newton_voters.csv'
+    Voter.objects.all().delete()
+    filename = 'voter_analytics/data/newton_voters.csv'
     f = open(filename, 'r')
+    headers = f.readline() 
 
     for line in f:
         fields = [field.strip() for field in line.split(",")]

@@ -1,0 +1,95 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 10px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.container > div:first-child {
+    width: 65%;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+h2 {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #333;
+}
+
+.search-form {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.search-form table {
+    width: 100%;
+}
+
+.search-form th {
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.search-form select, .search-form input[type="checkbox"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.search-form input[type="submit"] {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-form input[type="submit"]:hover {
+    background-color: #45a049;
+}
