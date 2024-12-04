@@ -14,7 +14,7 @@
                 <nav>
                     <a href="{% url 'recipes_list' %}">All Recipes</a>
                 </nav>
-                {{ request.user.profile.name }}
+                {{ request.user.username }}
             {% else %}
                 <nav>
                     <a href="{% url 'recipes_list' %}">All Recipes</a>

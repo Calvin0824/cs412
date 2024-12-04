@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class Ingredient(models.Model):
@@ -42,13 +43,15 @@ class RecipeIngredient(models.Model):
 
 
 class Profile1(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    account_age = models.DateField(auto_now_add=True)
-    uploaded_recipes = models.ManyToManyField(Recipe, related_name="uploaded_by", blank=True)
-    saved_recipes = models.ManyToManyField(Recipe, related_name="saved_by", blank=True)
-    completed_recipes = models.ManyToManyField(Recipe, related_name="completed_by", blank=True)
+    uploaded_recipes = models.ManyToManyField(Recipe, related_name="uploaded_by", blank=True, null=True)
+    completed_recipes = models.ManyToManyField(Recipe, related_name="completed_by", blank=True, null=True)
 
     def __str__(self):
         return self.name
-
+    
+    def get_absolute_url(self):
+        '''Return the URL to display this profile'''
+        # return reverse('recipe_list', kwargs={'pk': self.pk})
+        return reverse('recipe_list')

@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Recipe, RecipeIngredient, Image, Ingredient, Profile1
-from .forms import RecipeForm, RecipeIngredientForm, ImageForm, UserForm
+from .forms import RecipeForm, RecipeIngredientForm, ImageForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 class RecipesList(ListView):
@@ -74,12 +75,12 @@ class CreateProfileView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_form'] = UserForm()
+        context['user_creation_form'] = UserCreationForm()
         return context
 
     def form_valid(self, form):
         """This is called if the form is valid."""
-        user_creation_form = UserForm(self.request.POST)
+        user_creation_form = UserCreationForm(self.request.POST)
         if user_creation_form.is_valid():
             user = user_creation_form.save()
             profile = form.instance
@@ -87,4 +88,17 @@ class CreateProfileView(CreateView):
             profile.save()
             return super().form_valid(form)
         else:
+            print(user_creation_form.errors)
             return self.form_invalid(form)
+        
+class ProfileView(DetailView):
+    """Display a profile."""
+    model = Profile1
+    template_name = "project/profile.html"
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        context['recipes'] = Recipe.objects.filter(uploaded_by=profile)
+        return context

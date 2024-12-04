@@ -17,14 +17,6 @@ class ImageForm(forms.ModelForm):
         model = Image
         fields = ['img']
 
-class UserForm(forms.ModelForm):
-    """Form to create a user account."""
-    password = forms.CharField(widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
-
 class ProfileForm(forms.ModelForm):
     """Form to create a Profile1."""
     class Meta:
