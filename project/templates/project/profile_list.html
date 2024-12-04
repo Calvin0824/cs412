@@ -1,0 +1,20 @@
+{% extends 'project/base.html' %}
+
+{% block title %}
+    Profile List
+{% endblock %}
+
+{% block content %}
+    <h2>Profile List</h2>
+
+    {% if profiles %}
+        <ul>
+            {% for profile in profiles %}
+                <li>
+                    <a href="{% url 'profile_detail' pk=profile.pk %}">{{ profile.name }}</a>
+                    <span>(Uploaded: {{ profile.uploaded_recipes.count }}, Completed: {{ profile.completed_recipes.count }})</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

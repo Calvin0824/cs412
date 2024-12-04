@@ -1,0 +1,80 @@
+{% extends 'project/base.html' %}
+
+{% block title %}
+    {{ profile.name }}'s Profile
+{% endblock %}
+
+{% block content %}
+    <h2>{{ profile.name }}'s Profile</h2>
+    
+    <div>
+        <h3>Profile Details</h3>
+        <p><strong>Name:</strong> {{ profile.name }}</p>
+        <p><strong>Uploaded Recipes:</strong> {{ profile.uploaded_recipes.count }} recipes</p>
+        <p><strong>Completed Recipes:</strong> {{ profile.completed_recipes.count }} recipes</p>
+    </div>
+    
+    <div>
+        <h3>Uploaded Recipes</h3>
+        {% if uploaded %}
+            <div class="table">
+                <table class="profiles_table">
+                    <tbody>
+                        {% for recipe in uploaded %}
+                            <tr>
+                                <td>
+                                    {% if recipe.get_image %}
+                                        <a href="{% url 'recipe_detail' recipe.pk%}">
+                                            {% for image in recipe.get_image %}
+                                                <img src="{{ image.img.url }}" alt="{{ recipe.name }}'s Image">
+                                            {% endfor %}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'recipe_detail' recipe.pk%}">
+                                        {{ recipe.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No uploaded recipes yet.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <h3>Completed Recipes</h3>
+        {% if completed %}
+        <div class="table">
+            <table class="profiles_table">
+                <tbody>
+                    {% for recipe in completed %}
+                        <tr>
+                            <td>
+                                {% if recipe.get_image %}
+                                    <a href="{% url 'recipe_detail' recipe.pk%}">
+                                        {% for image in recipe.get_image %}
+                                            <img src="{{ image.img.url }}" alt="{{ recipe.name }}'s Image">
+                                        {% endfor %}
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'recipe_detail' recipe.pk%}">
+                                    {{ recipe.name }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p>No completed recipes yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

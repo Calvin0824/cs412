@@ -45,13 +45,12 @@ class RecipeIngredient(models.Model):
 class Profile1(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    uploaded_recipes = models.ManyToManyField(Recipe, related_name="uploaded_by", blank=True, null=True)
-    completed_recipes = models.ManyToManyField(Recipe, related_name="completed_by", blank=True, null=True)
+    uploaded_recipes = models.ManyToManyField(Recipe, related_name="uploaded_by", blank=True)
+    completed_recipes = models.ManyToManyField(Recipe, related_name="completed_by", blank=True)
 
     def __str__(self):
         return self.name
     
     def get_absolute_url(self):
         '''Return the URL to display this profile'''
-        # return reverse('recipe_list', kwargs={'pk': self.pk})
-        return reverse('recipe_list')
+        return reverse('profile_detail', kwargs={'pk': self.pk})

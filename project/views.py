@@ -7,23 +7,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
-class RecipesList(ListView):
+class RecipesListView(ListView):
     model = Recipe
     template_name = 'project/recipes_list.html'
     context_object_name = 'recipes'
     
-class RecipesDetail(DetailView):
+class RecipesDetailView(DetailView):
     model = Recipe
     template_name = 'project/recipe_detail.html'
     context_object_name = 'recipe'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = self.get_object()
         
         return context
     
-class CreateRecipeView(CreateView):
+class CreateRecipeView(LoginRequiredMixin,CreateView):
     """Create a new recipe."""
     model = Recipe
     template_name = "project/create_recipe_form.html"
@@ -36,8 +35,11 @@ class CreateRecipeView(CreateView):
     def form_valid(self, form):
         """This is called if the form is valid."""
         profile = self.get_object()
-        form.instance.uploaded_by.add(profile)  # Associate the recipe with the user's profile.
+        # Save the recipe first to ensure it gets an ID
         recipe = form.save()
+
+        # Associate the recipe with the user's profile
+        profile.uploaded_recipes.add(recipe)  # Associate the recipe with the user's profile.
 
         # Handle ingredients
         ingredients_data = self.request.POST.getlist('ingredient')
@@ -63,9 +65,8 @@ class CreateRecipeView(CreateView):
         context = super().get_context_data(**kwargs)
         profile = self.get_object()
         context['profile'] = profile
-        context['ingredient_form'] = RecipeIngredientForm()
-        context['image_form'] = ImageForm()
         return context
+
     
 class CreateProfileView(CreateView):
     """Create a new profile"""
@@ -100,5 +101,12 @@ class ProfileView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = self.get_object()
-        context['recipes'] = Recipe.objects.filter(uploaded_by=profile)
+        context['uploaded'] = Recipe.objects.filter(uploaded_by=profile)
+        context['completed'] = Recipe.objects.filter(completed_by=profile)
         return context
+    
+class ProfileListView(ListView):
+    """Display a list of profiles."""
+    model = Profile1
+    template_name = "project/profile_list.html"
+    context_object_name = 'profiles'
