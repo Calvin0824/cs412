@@ -1,0 +1,40 @@
+{% extends "project/base.html" %}
+
+{% block title %}
+    {{ recipe.name }}
+{% endblock %}
+
+{% block content %}
+<div style="display: flex; align-items: flex-start;">
+    <div style="flex: 1; margin-right: 20px;">
+        {% for image in recipe.get_image %}
+            <img src="{{ image.img.url }}" alt="{{ recipe.name }}'s Image">
+        {% endfor %}
+        
+        <h3>Ingredients:</h3>
+        <ul>
+            {% for ingredient in recipe.get_ingredients %}
+                <li>{{ ingredient.quantity }} of {{ ingredient.ingredient.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+<div style="flex: 2;">
+    <h1>{{ recipe.name }}</h1>
+    <h3>Description:</h3>
+    <form method="post">
+        {% csrf_token %}
+        <ul style="list-style-type: none; padding: 0;">
+            {% for line in recipe.description.splitlines %}
+                <li>
+                    <label>
+                        <input type="checkbox" name="description_lines" value="{{ line }}"> {{ line }}
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</div>
+{% endblock %}

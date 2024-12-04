@@ -12,11 +12,22 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    ingredients = models.ManyToManyField(Ingredient)
 
     def __str__(self):
         return self.name
+    
+    def get_image(self):
+        '''Returns the images for this recipe'''
+        images = Image.objects.filter(recipe=self)
+        return images
+    
+    def get_ingredients(self):
+        """Returns all ingredients with quantities for this recipe."""
+        return RecipeIngredient.objects.filter(recipe=self)
 
+class Image(models.Model):
+    img = models.ImageField()
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='images')
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

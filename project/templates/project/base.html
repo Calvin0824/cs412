@@ -1,0 +1,22 @@
+{% load static %}
+<html>
+    <head>
+        <title>Cooking Recipes for Every Meal</title>
+        <!-- <link rel="stylesheet" href="{% static 'css/mini_fb.css' %}">           -->
+    </head>
+    <body>
+    <div class="header">
+        <h1>Cooking Recipes for Every Meal</h1>
+
+        {% block nav %}
+        <div class="nav_table">
+            
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    <!-- put the interesting (specific stuff) here -->
+    {% endblock %}
+    </body>
+</html>
