@@ -1,0 +1,43 @@
+{% extends "project/base.html" %}
+
+{% block title %}
+    Create Recipe
+{% endblock %}
+
+{% block content %}
+<h1>Create a New Recipe</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3>Recipe Information</h3>
+    {{ form.as_p }}
+
+    <h3>Ingredients</h3>
+    <div id="ingredient-forms">
+        <div class="ingredient-row">
+            <input type="text" name="ingredient" placeholder="Ingredient Name">
+            <input type="text" name="quantity" placeholder="Quantity">
+        </div>
+    </div>
+    <button type="button" id="add-ingredient">Add Ingredient</button>
+
+    <h3>Images</h3>
+    <div id="image-forms">
+        <input type="file" name="images" multiple>
+    </div>
+
+    <button type="submit">Save Recipe</button>
+</form>
+
+<script>
+    document.getElementById('add-ingredient').addEventListener('click', function() {
+        const container = document.getElementById('ingredient-forms');
+        const newRow = document.createElement('div');
+        newRow.classList.add('ingredient-row');
+        newRow.innerHTML = `
+            <input type="text" name="ingredient" placeholder="Ingredient Name">
+            <input type="text" name="quantity" placeholder="Quantity">
+        `;
+        container.appendChild(newRow);
+    });
+</script>
+{% endblock %}

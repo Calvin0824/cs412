@@ -10,7 +10,31 @@
 
         {% block nav %}
         <div class="nav_table">
-            
+            {% if request.user.is_authenticated %}
+                <nav>
+                    <a href="{% url 'recipes_list' %}">All Recipes</a>
+                </nav>
+                {{ request.user.profile.name }}
+            {% else %}
+                <nav>
+                    <a href="{% url 'recipes_list' %}">All Recipes</a>
+                </nav>
+                <nav>
+                    <a href="{% url 'create_profile' %}">Create Profile</a>
+                </nav>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <nav>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav_button">Logout</button>
+                </form>
+            </nav>
+            {% else %}
+            <nav>
+                <a href="{% url 'login' %}">Login</a>
+            </nav>
+            {% endif %}
         </div>
     </div>
     {% endblock %}
