@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Recipe, RecipeIngredient, Image, Ingredient, Profile1
@@ -8,40 +8,47 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 class RecipesListView(ListView):
+    """Shows all the recipes"""
     model = Recipe
     template_name = 'project/recipes_list.html'
     context_object_name = 'recipes'
     
 class RecipesDetailView(DetailView):
+    """Shows the details of a recipe"""
     model = Recipe
     template_name = 'project/recipe_detail.html'
     context_object_name = 'recipe'
 
     def get_context_data(self, **kwargs):
+        """Returns the context data"""
         context = super().get_context_data(**kwargs)
-        
         return context
     
+    def post(self, request, *args, **kwargs):
+        """Adds the recipe to the profile's completed recipes"""
+        recipe = self.get_object()
+        profile = Profile1.objects.get(user=request.user)
+        if recipe not in profile.completed_recipes.all():
+            profile.completed_recipes.add(recipe)
+        return redirect('recipes_list')
+    
 class CreateRecipeView(LoginRequiredMixin,CreateView):
-    """Create a new recipe."""
+    """Creates a new recipe"""
     model = Recipe
     template_name = "project/create_recipe_form.html"
     form_class = RecipeForm
 
     def get_object(self):
-        """Returns the Profile1 object for the current user."""
+        """Returns the Profile for the current user"""
         return Profile1.objects.get(user=self.request.user)
 
     def form_valid(self, form):
-        """This is called if the form is valid."""
+        """Creates and saves the recipe"""
         profile = self.get_object()
-        # Save the recipe first to ensure it gets an ID
         recipe = form.save()
 
-        # Associate the recipe with the user's profile
-        profile.uploaded_recipes.add(recipe)  # Associate the recipe with the user's profile.
+        profile.uploaded_recipes.add(recipe)
 
-        # Handle ingredients
         ingredients_data = self.request.POST.getlist('ingredient')
         quantities_data = self.request.POST.getlist('quantity')
         for ingredient_name, quantity in zip(ingredients_data, quantities_data):
@@ -49,7 +56,6 @@ class CreateRecipeView(LoginRequiredMixin,CreateView):
                 ingredient, _ = Ingredient.objects.get_or_create(name=ingredient_name.strip())
                 RecipeIngredient.objects.create(recipe=recipe, ingredient=ingredient, quantity=quantity)
 
-        # Handle images
         files = self.request.FILES.getlist('images')
         for f in files:
             Image.objects.create(img=f, recipe=recipe)
@@ -57,11 +63,11 @@ class CreateRecipeView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        """Return the URL to redirect to after processing the form."""
+        """Return the URL to redirect to after processing the form"""
         return reverse('recipe_detail', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
-        """Provide context for the template."""
+        """Returns the context data"""
         context = super().get_context_data(**kwargs)
         profile = self.get_object()
         context['profile'] = profile
@@ -80,7 +86,7 @@ class CreateProfileView(CreateView):
         return context
 
     def form_valid(self, form):
-        """This is called if the form is valid."""
+        """This is called if the form is valid"""
         user_creation_form = UserCreationForm(self.request.POST)
         if user_creation_form.is_valid():
             user = user_creation_form.save()
@@ -93,7 +99,7 @@ class CreateProfileView(CreateView):
             return self.form_invalid(form)
         
 class ProfileView(DetailView):
-    """Display a profile."""
+    """Shows the details of a profile"""
     model = Profile1
     template_name = "project/profile.html"
     context_object_name = 'profile'
@@ -106,7 +112,7 @@ class ProfileView(DetailView):
         return context
     
 class ProfileListView(ListView):
-    """Display a list of profiles."""
+    """Shows all the profiles"""
     model = Profile1
     template_name = "project/profile_list.html"
     context_object_name = 'profiles'

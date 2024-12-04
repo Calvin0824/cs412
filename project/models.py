@@ -23,7 +23,7 @@ class Recipe(models.Model):
         return images
     
     def get_ingredients(self):
-        """Returns all ingredients with quantities for this recipe."""
+        """Returns all ingredients with quantities for this recipe"""
         return RecipeIngredient.objects.filter(recipe=self)
 
 class Image(models.Model):
