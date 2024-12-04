@@ -5,21 +5,23 @@
 {% endblock %}
 
 {% block content %}
-<div style="display: flex; align-items: flex-start;">
-    <div style="flex: 1; margin-right: 20px;">
+<div class="recipe_container">
+    <div class="recipe_image_section">
         {% for image in recipe.get_image %}
             <img src="{{ image.img.url }}" alt="{{ recipe.name }}'s Image">
         {% endfor %}
         
-        <h3>Ingredients:</h3>
-        <ul>
-            {% for ingredient in recipe.get_ingredients %}
-                <li>{{ ingredient.quantity }} of {{ ingredient.ingredient.name }}</li>
-            {% endfor %}
-        </ul>
+        <div class="recipe_ingredients">
+            <h3>Ingredients:</h3>
+            <ul>
+                {% for ingredient in recipe.get_ingredients %}
+                    <li>{{ ingredient.quantity }} of {{ ingredient.ingredient.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
-    <div style="flex: 2;">
+    <div class="recipe_description_section">
         <h1>{{ recipe.name }}</h1>
         <h3>Description:</h3>
         <form method="post">
@@ -28,20 +30,29 @@
                 {% for line in recipe.description.splitlines %}
                     <li>
                         <label>
-                            <input type="checkbox" class="description-checkbox" name="description_lines" value="{{ line }}"> {{ line }}
+                            <input type="checkbox" class="description_checkbox" name="description_lines" value="{{ line }}"> {{ line }}
                         </label>
                     </li>
                 {% endfor %}
             </ul>
-            <button type="submit" id="submit-button" style="display: none;" disabled>Submit</button>
+            {% if request.user.is_authenticated %}
+                <button type="submit" id="submit_button" style="display: none;" disabled>Submit</button>
+            {% else %}
+                <div class="login">
+                    <p>You must be logged in to complete this recipe.</p>
+                    <nav>
+                        <a href="{% url 'login' %}">Login</a>
+                    </nav>
+                </div>
+            {% endif %}
         </form>
     </div>
 </div>
 
 <script>
     function checkCheckboxes() {
-        const checkboxes = document.querySelectorAll('.description-checkbox');
-        const submitButton = document.getElementById('submit-button');
+        const checkboxes = document.querySelectorAll('.description_checkbox');
+        const submitButton = document.getElementById('submit_button');
         
         if (Array.from(checkboxes).every(checkbox => checkbox.checked)) {
             submitButton.style.display = 'inline-block'; 
@@ -52,7 +63,7 @@
         }
     }
 
-    document.querySelectorAll('.description-checkbox').forEach(checkbox => {
+    document.querySelectorAll('.description_checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', checkCheckboxes);
     });
 </script>

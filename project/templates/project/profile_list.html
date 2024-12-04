@@ -8,13 +8,23 @@
     <h2>Profile List</h2>
 
     {% if profiles %}
-        <ul>
-            {% for profile in profiles %}
-                <li>
-                    <a href="{% url 'profile_detail' pk=profile.pk %}">{{ profile.name }}</a>
-                    <span>(Uploaded: {{ profile.uploaded_recipes.count }}, Completed: {{ profile.completed_recipes.count }})</span>
-                </li>
-            {% endfor %}
-        </ul>
+        <table class="profile_table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Uploaded Recipes</th>
+                    <th>Completed Recipes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in profiles %}
+                    <tr>
+                        <td><a href="{% url 'profile_detail' pk=profile.pk %}">{{ profile.name }}</a></td>
+                        <td>{{ profile.uploaded_recipes.count }}</td>
+                        <td>{{ profile.completed_recipes.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endblock %}
