@@ -33,7 +33,7 @@
             {% endif %}
             {% if request.user.is_authenticated %}
             <nav>
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                <form action="{% url 'logout' %}" method="post" style="display: inline; margin-bottom: 0px;">
                     {% csrf_token %}
                     <button type="submit" class="nav_button">Logout</button>
                 </form>
