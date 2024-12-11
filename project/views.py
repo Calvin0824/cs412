@@ -1,3 +1,7 @@
+# File: views.py
+# Author: Calvin Li (calvinli@bu.edu), 12/3/2024
+# Description: This file contains all the views for the project app
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView

@@ -1,3 +1,7 @@
+# File: urls.py
+# Author: Calvin Li (calvinli@bu.edu), 12/3/2024
+# Description: This file contains all the urls for the project app
+
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LoginView, LogoutView
